@@ -48,7 +48,7 @@ kubectl config view --raw >~/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/vavallee/micro-kubernetes/main/micro-kubernetes/rpi4/base-manifests/admin-sa.yaml
 kubectl apply -f https://raw.githubusercontent.com/vavallee/micro-kubernetes/main/micro-kubernetes/rpi4/base-manifests/admin-rbac.yaml
 
-SA_NAME="yourname-admin"
+SA_NAME="vavallee-admin"
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep ${SA_NAME} | awk '{print $1}')
 
 # Install HELM 3 localy or on your master node
