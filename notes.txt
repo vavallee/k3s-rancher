@@ -42,7 +42,7 @@ kubectl config view --raw >~/.kube/config
 
 # Create RBAC role for the k8s Dashboard
 kubectl apply -f https://raw.githubusercontent.com/vavallee/micro-kubernetes/main/micro-kubernetes/rpi4/base-manifests/admin-sa.yaml
-kubectl apply -f https://github.com/vavallee/micro-kubernetes/blob/main/micro-kubernetes/rpi4/base-manifests/admin-rbac.yaml
+kubectl apply -f https://raw.githubusercontent.com/vavallee/micro-kubernetes/main/micro-kubernetes/rpi4/base-manifests/admin-rbac.yaml
 
 SA_NAME="yourname-admin"
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep ${SA_NAME} | awk '{print $1}')
