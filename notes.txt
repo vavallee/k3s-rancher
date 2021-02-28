@@ -1,0 +1,98 @@
+#
+#
+# Raspberry Pi Kubernetes Consolidation Project
+# 
+# Hardware
+# 3x Raspberry PI 4 Model B w/ 8GB RAM (https://www.eurekatec.ca/product/raspberry-pi-4-model-b-standalone-board/884?cp=true&sa=false&sbp=false&q=false&category_id=23)
+# 1x 12 AMP/60 Watt USB Charger (https://www.amazon.ca/gp/product/B00Q7WWUNA?ref=ppx_pt2_dt_b_prod_image)
+# 1x Rasperry Pi Cluster Case with fans (https://www.amazon.ca/gp/product/B07MW3GM1T?ref=ppx_pt2_dt_b_prod_image)
+# 1x USB-C Power Cables (https://www.amazon.ca/gp/product/B07KFX18KJ?ref=ppx_pt2_dt_b_prod_image)
+# 3x 64 GB Sandisk Class 10 SD Cards (https://www.eurekatec.ca/product/sandisk-ultra-microsd-card/800?cp=true&sa=false&sbp=false&q=true)
+
+
+# Steps
+# Install 64 bit Ubuntu 10.4 (ubuntu-20.04.1-preinstalled-server-arm64+raspi.img) to the SD Cards
+# Build your case, put the headsinks on, insert your SD cards, connect ethernet, power on your cluster
+# foreach RPI
+# ssh to the node, and either leave them with DHCP (recommend static DHCP in your router)
+# I set manual IP addresses becasue the cluster runs my DHCP server (catch 22)
+# set CGROUPS
+vi /boot/firmware/cmdline.txt
+# Paste "cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1" to the end of the line and save the file
+# set hostnames
+hostnamectl set-hostname k8s1
+hostnamectl set-hostname k8s2
+hostnamectl set-hostname k8s3
+# install net-tools
+apt install net-tools
+
+# ON MASTER node in the cluster
+
+curl -sfL https://get.k3s.io | sh -
+# Then get the node key
+sudo cat /var/lib/rancher/k3s/server/node-token
+
+# On remaining nodes
+sudo curl -sfL https://get.k3s.io | K3S_URL="https://192.168.1.xxx:6443" K3S_TOKEN=<key from above> sh -
+
+# check that all nodes are connected
+kubectl get node 
+# you might need to run
+kubectl config view --raw >~/.kube/config
+
+# Create RBAC role for the k8s Dashboard
+SA_NAME="yourname-admin"
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep ${SA_NAME} | awk '{print $1}')
+
+# Install HELM 3 localy or on your master node
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+# you need this for helm
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+# If you're on windows and want to be able to kubectl proxy
+# install windows kubectl via the powershell chocolatey method. as admin
+# https://chocolatey.org/packages/kubernetes-cli
+# create ~/.kube/config in windows from your kubernetes master
+cat /etc/rancher/k3s/k3s.yaml
+# copy contents to windows ~/.kube/config
+# make sure you change ip from 127.0.0.1
+
+#enable traefik dashboard
+https://levelup.gitconnected.com/a-guide-to-k3s-ingress-using-traefik-with-nodeport-6eb29add0b4b
+# Note that this is hard to get working outside the cluster
+
+# cert-manager
+# this one worked but I used the latest version of cert-manager 1.1.1 not the one they used
+https://opensource.com/article/20/3/ssl-letsencrypt-k3s
+#and the example service
+https://carpie.net/articles/ingressing-with-k3s#deploying-a-simple-website
+
+# Install metallb
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+
+# Set the MetalLB IP ranges in the configmap
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   namespace: metallb-system
+#   name: config
+# data:
+#   config: |
+#     address-pools:
+#     - name: default
+#       protocol: layer2
+#       addresses:
+#       - 192.168.1.151-192.168.1.179
+
+# disable servicelb
+vi /etc/systemd/system/k3s.service
+#  ExecStart=/usr/local/bin/k3s server --disable servicelb
+
+# for cert manager to work with ingress for me, I needed to edit coredns configmap and change /etc/hosts on all k8s nodes
+kubectl edit cm coredns -n kube-system
+
+
