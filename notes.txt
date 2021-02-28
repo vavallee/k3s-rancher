@@ -12,7 +12,7 @@
 
 # Steps
 # Install 64 bit Ubuntu 20.04.1 (ubuntu-20.04.1-preinstalled-server-arm64+raspi.img) to the SD Cards
-# Build your case, put the headsinks on, insert your SD cards, connect ethernet, power on your cluster
+# Build your case, put the heatsinks on, insert your SD cards, connect ethernet, power on your cluster
 # foreach RPI
 # ssh to the node, and either leave them with DHCP (recommend static DHCP in your router)
 # I set manual IP addresses becasue the cluster runs my DHCP server (catch 22)
@@ -25,6 +25,8 @@ hostnamectl set-hostname k8s2
 hostnamectl set-hostname k8s3
 # install net-tools
 apt install net-tools
+
+# Reboot all nodes.
 
 # ON MASTER node in the cluster
 
