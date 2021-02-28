@@ -11,7 +11,7 @@
 
 
 # Steps
-# Install 64 bit Ubuntu 10.4 (ubuntu-20.04.1-preinstalled-server-arm64+raspi.img) to the SD Cards
+# Install 64 bit Ubuntu 20.04.1 (ubuntu-20.04.1-preinstalled-server-arm64+raspi.img) to the SD Cards
 # Build your case, put the headsinks on, insert your SD cards, connect ethernet, power on your cluster
 # foreach RPI
 # ssh to the node, and either leave them with DHCP (recommend static DHCP in your router)
