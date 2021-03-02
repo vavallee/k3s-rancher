@@ -102,4 +102,26 @@ vi /etc/systemd/system/k3s.service
 # for cert manager to work with ingress for me, I needed to edit coredns configmap and change /etc/hosts on all k8s nodes
 kubectl edit cm coredns -n kube-system
 
-
+# Non-exhaustive list of helm charts / manifests I used in this project
+#
+#  Huge source of helm charts for home projects
+#  https://github.com/k8s-at-home/charts
+# 
+#  Signal Messenger REST API
+#  https://github.com/bbernhard/signal-cli-rest-api
+#
+#  Prometheus Operator, Grafana, Alert Stack customized for k3s
+#  https://github.com/cablespaghetti/k3s-monitoring
+#
+#  Rancher Longhorn for distributed storage
+#  https://github.com/longhorn/longhorn
+#
+#  Gluetun VPN Client
+#  https://github.com/qdm12/gluetun
+#
+#  InfluxDB
+#  https://helm.influxdata.com/
+#
+#  mariaDB
+#  https://hub.docker.com/_/mariadb
+#  
