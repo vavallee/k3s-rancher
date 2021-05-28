@@ -136,4 +136,4 @@ kubectl edit cm coredns -n kube-system
 # curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest sh -
 # WORKERS
 # curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest K3S_URL=https://192.168.1.xxx:6443 K3S_TOKEN="<server key>" sh -
-
+# Once complete, you'll want to disable serviceLB again (see disable servicelb above)
