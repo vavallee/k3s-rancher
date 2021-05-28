@@ -132,8 +132,9 @@ kubectl edit cm coredns -n kube-system
 # UPGRADE NOTES
 # When you upgrade the cluster, you need the below syntax (for Latest not Stable)
 # I've had some broken upgrades in the past, so for now I take an image of the server sdcard before upgrade to be safe
+/usr/local/bin/k3s-killall.sh
 # SERVER
-# curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest sh -
 # WORKERS
-# curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest K3S_URL=https://192.168.1.xxx:6443 K3S_TOKEN="<server key>" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest K3S_URL=https://192.168.1.xxx:6443 K3S_TOKEN="<server key>" sh -
 # Once complete, you'll want to disable serviceLB again (see disable servicelb above)
