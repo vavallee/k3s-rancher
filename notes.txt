@@ -9,9 +9,8 @@
 # 1x 12 AMP/60 Watt USB Charger (https://www.amazon.ca/gp/product/B00Q7WWUNA?ref=ppx_pt2_dt_b_prod_image)
 # 1x Rasperry Pi Cluster Case with fans (https://www.amazon.ca/gp/product/B07MW3GM1T?ref=ppx_pt2_dt_b_prod_image)
 # 1x USB-C Power Cables (https://www.amazon.ca/gp/product/B07KFX18KJ?ref=ppx_pt2_dt_b_prod_image)
-# 3x 64 GB Sandisk Class 10 SD Cards (https://www.eurekatec.ca/product/sandisk-ultra-microsd-card/800?cp=true&sa=false&sbp=false&q=true)
-# NOTE on ABOVE: These SD cards are too slow for any sort of distributed filesystem, I am migrating these to:
-# https://www.amazon.ca/Gigastone-MicroSD-Adapter-Dashcam-Nintendo/dp/B01MRSY5SJ
+#  3x 64 Gb Gigastone A2 SDXC Class 10 Cards (https://www.amazon.ca/Gigastone-MicroSD-Adapter-Dashcam-Nintendo/dp/B01MRSY5SJ)
+# NOTE on ABOVE: These SD cards are A2V30, not just class 10. Normal Class 10 SDcards have too slow a write speed, and you will run into bottlenecks
 
 
 
