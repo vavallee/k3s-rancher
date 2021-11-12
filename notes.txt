@@ -1,6 +1,8 @@
 # Very very rough notes on my k3s Raspberry Pi Project, please feel free to point out error/omissions.
 # https://www.linkedin.com/feed/update/urn:li:activity:6771250920845021184/
 
+# DON'T FORGET TO USE LATEST VERSIONS OF COMPONENTS BELOW, THIS PAGE IS BEHIND
+
 #
 # Raspberry Pi Kubernetes Consolidation Project
 # 
