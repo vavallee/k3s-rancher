@@ -134,6 +134,10 @@ kubectl edit cm coredns -n kube-system
 # When you upgrade the cluster, you need the below syntax (for Latest not Stable)
 # I've had some broken upgrades in the past, so for now I take an image of the server sdcard before upgrade to be safe
 # Note: Nov 2021: All the metalLB IP addresses seem to get reset, so check those out to see that they match with the DNS
+# If you upgrade to k3s 1.22+ versions, note that ingress is deprecated, if you have had traefik enabled in 1.21 it will not update to v2 which is needed for non-ingress
+# kubernetes. In my case, I used --disable traefik in the k3s master and installed it seperately and rebuilt my ingress as load balancers and ingressroutes.
+# Details here: https://doc.traefik.io/traefik/user-guides/crd-acme/
+
 /usr/local/bin/k3s-killall.sh
 # SERVER
 curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=latest sh -
